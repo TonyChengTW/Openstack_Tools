@@ -3,15 +3,12 @@
 # delete tumes of tokens
 # Version = 0.1
 
-import time
 import subprocess
-#import commands
+import time
 
 
 shrink_innodb_cmd = 'mysql -h 192.168.2.10 -u root -pAbc12345 keystone -e "alter table token ENGINE=\'InnoDB\'"'
-
-tokens_purge = {'source': 'source /root/admin-openrc.sh',
-                'keystone-manage': 'keystone-manage -v -d token_flush',
+tokens_purge = {'keystone-manage': 'source /root/admin-openrc.sh;keystone-manage -v -d token_flush', 
                 'shrink InnoDB': shrink_innodb_cmd,
                }
 
@@ -20,8 +17,11 @@ for purge_cmd in tokens_purge:
     time.sleep(2)
     cli = tokens_purge[purge_cmd]
     print "Command = %s" % cli
+#    cmd_result = subprocess.check_output(cli,
+#                                         stderr=subprocess.STDOUT,
+#                                         shell=True)
     cmd_result = subprocess.call(cli,
-                                 shell=True)
-#    cmd_result = commands.getstatusoutput(cli)
-
+                                 shell=True,
+                                 executable="/bin/bash",
+                                )
     print "Result = %s" % cmd_result
