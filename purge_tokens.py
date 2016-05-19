@@ -7,7 +7,7 @@ import subprocess
 import time
 
 
-shrink_innodb_cmd = 'mysql -h 192.168.2.10 -u root -pAbc12345 keystone -e "alter table token ENGINE=\'InnoDB\'"'
+shrink_innodb_cmd = 'mysql -h 192.168.2.10 -u root -pxxxxxx keystone -e "alter table token ENGINE=\'InnoDB\'"'
 tokens_purge = {'keystone-manage': 'source /root/admin-openrc.sh;keystone-manage -v -d token_flush', 
                 'shrink InnoDB': shrink_innodb_cmd,
                }
