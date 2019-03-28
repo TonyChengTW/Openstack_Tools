@@ -9,7 +9,6 @@ openrc_file = "/root/admin-openrc"
 
 def read_openrc():
     fh= open(openrc_file, "r")
-    pdb.set_trace()
     for line in fh.readlines():
         regex = r'^export (OS.+)=(.+)$'
         [(key, value)] = re.findall(regex, line)
@@ -18,17 +17,15 @@ def read_openrc():
 
 def exec_cmd(cmd):
     # export openstack rc
-    env = read_openrc()
     p = subprocess.call(cmd,
-            env = env,
+            env = read_openrc(),
             shell = True,
             bufsize= 1,
             universal_newlines = True)
     return p
 
 def main():
-    # Init
-    oscmd_user_list = "/usr/bin/openstack user list"
+    oscmd_user_list = "openstack user list"
     exec_cmd(oscmd_user_list)
 
 if __name__ == '__main__':
